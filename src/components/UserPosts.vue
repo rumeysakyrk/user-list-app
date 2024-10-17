@@ -1,18 +1,21 @@
 <template>
   <v-container>
     <h2 class="text-center pb-8">{{ userName }}'in Gönderileri</h2>
-    <v-progress-circular v-if="isLoading" indeterminate color="primary" class="ma-auto"></v-progress-circular>
+    <v-progress-circular
+      v-if="isLoading"
+      indeterminate
+      color="primary"
+      class="ma-auto"
+    ></v-progress-circular>
     <v-row>
       <v-col v-for="post in posts" :key="post.id" cols="12" md="6">
-        <v-card class="mb-3" elevation="2">
-          <div
-            style="height: 80px; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)); display: flex; align-items: center; justify-content: center; color: white;">
-            <h3 class="font-weight-bold">{{ post.title }}</h3>
+        <v-card class="post-card mb-3" elevation="2">
+          <div class="post-card-header">
+            <h3 class="post-title">{{ post.title }}</h3>
           </div>
           <v-card-text>
             <p class="body-2">{{ post.body }}</p>
           </v-card-text>
-
         </v-card>
       </v-col>
     </v-row>
@@ -21,10 +24,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
-import axios from "axios";
 import { useRoute } from "vue-router";
 import { Post } from "@/models/Post";
 import store from "@/store";
+import { fetchUserPosts } from "@/services/apiService";
 
 export default defineComponent({
   name: "UserPosts",
@@ -38,29 +41,24 @@ export default defineComponent({
     });
     const isLoading = ref(true);
 
-    const fetchPosts = async () => {
+    const getPosts = async () => {
       try {
-        const response = await axios.get(
-          `https://jsonplaceholder.typicode.com/users/${userId}/posts`
-        );
-        posts.value = response.data;
-        isLoading.value = false;
+        posts.value = await fetchUserPosts(userId.toString());
       } catch (error) {
         console.error("Error fetching posts:", error);
+      } finally {
+        isLoading.value = false;
       }
     };
 
-
-
     onMounted(() => {
-      fetchPosts();
+      getPosts();
     });
 
     return {
       posts,
       userName,
       isLoading,
-
     };
   },
 });
@@ -77,5 +75,33 @@ export default defineComponent({
 
 .v-card:hover {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.pb-8 {
+  padding-bottom: 2rem;
+}
+
+.post-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-card-header {
+  height: 80px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.3)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.post-title {
+  font-weight: bold;
+  color: white;
+  margin: 0;
 }
 </style>

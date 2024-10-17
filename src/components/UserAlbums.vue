@@ -20,10 +20,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
-import axios from "axios";
 import { useRoute } from "vue-router";
 import { Album } from "@/models/Album";
 import store from "@/store";
+import { fetchUserAlbums } from "@/services/apiService";
 
 export default defineComponent({
   name: "UserAlbums",
@@ -36,21 +36,19 @@ export default defineComponent({
       return user ? user.name : "User";
     });
     const isLoading = ref(true);
-    const fetchComments = async () => {
+
+    const getAlbums = async () => {
       try {
-        await axios
-          .get(`https://jsonplaceholder.typicode.com/users/${userId}/albums`)
-          .then((response) => {
-            albums.value = response.data;
-            isLoading.value = false;
-          });
+        albums.value = await fetchUserAlbums(userId.toString());
       } catch (error) {
         console.error("Error fetching albums:", error);
+      } finally {
+        isLoading.value = false;
       }
     };
 
     onMounted(() => {
-      fetchComments();
+      getAlbums();
     });
 
     return {

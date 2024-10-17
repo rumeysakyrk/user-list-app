@@ -1,10 +1,24 @@
 <template>
   <div class="home">
-    <v-card  color="white" class="mx-auto my-5" elevation="5" rounded="xl" style="max-width: calc(100% - 100px);">
-      <v-card-title class="headline text-h5 text-center mt-4 font-weight-bold  text-decoration-underline">Kullanıcı Listesi</v-card-title>
+    <v-card
+      color="white"
+      class="mx-auto my-5"
+      elevation="5"
+      rounded="xl"
+      style="max-width: calc(100% - 100px)"
+    >
+      <v-card-title
+        class="headline text-h5 text-center mt-4 font-weight-bold text-decoration-underline"
+        >Kullanıcı Listesi</v-card-title
+      >
       <v-divider></v-divider>
       <v-card-text>
-        <v-progress-circular v-if="isLoading" indeterminate color="primary" class="ma-auto"></v-progress-circular>
+        <v-progress-circular
+          v-if="isLoading"
+          indeterminate
+          color="primary"
+          class="ma-auto"
+        ></v-progress-circular>
         <UserList v-if="!isLoading" />
       </v-card-text>
     </v-card>
@@ -27,7 +41,7 @@ export default defineComponent({
 
     const fetchUsers = async () => {
       try {
-        await store.dispatch('fetchUsers');
+        await store.dispatch("fetchUsers");
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
@@ -41,9 +55,9 @@ export default defineComponent({
 
     return {
       fetchUsers,
-      isLoading
+      isLoading,
     };
-  }
+  },
 });
 </script>
 

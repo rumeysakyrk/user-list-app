@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
-import axios from "axios";
 import { User } from "@/models/User";
+import { fetchUserList } from "@/services/apiService";
 
 
 export default createStore({
@@ -21,10 +21,8 @@ export default createStore({
     async fetchUsers({ commit, state }): Promise<void> {
       if (state.users.length === 0) {
         try {
-          const response = await axios.get(
-            "https://jsonplaceholder.typicode.com/users"
-          );
-          commit("setUsers", response.data);
+          const users = await fetchUserList(); // Use the centralized function
+          commit("setUsers", users);
         } catch (error) {
           console.error("Failed to fetch users:", error);
         }

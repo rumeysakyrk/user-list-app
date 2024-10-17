@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import UserDetailView from "@/views/UserDetailView.vue";
 import UserPosts from "@/components/UserPosts.vue";
-import  UserTodos  from '@/components/UserTodos.vue';
+import UserTodos from "@/components/UserTodos.vue";
 import UserPhotos from "@/components/UserPhotos.vue";
 import UserComments from "@/components/UserComments.vue";
 import UserAlbums from "@/components/UserAlbums.vue";
@@ -50,7 +50,7 @@ const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

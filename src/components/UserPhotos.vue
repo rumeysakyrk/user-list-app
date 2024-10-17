@@ -12,7 +12,9 @@
         <v-card class="mb-3" outlined>
           <v-img :src="photo.url" alt="Photo" height="200" contain></v-img>
           <v-card-title class="headline">{{ photo.title }}</v-card-title>
-          <v-card-subtitle class="text--secondary">Album ID: {{ photo.albumId }}</v-card-subtitle>
+          <v-card-subtitle class="text--secondary"
+            >Album ID: {{ photo.albumId }}</v-card-subtitle
+          >
         </v-card>
       </v-col>
     </v-row>
@@ -21,10 +23,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
-import axios from "axios";
 import { useRoute } from "vue-router";
 import { Photo } from "@/models/Photo";
 import store from "@/store";
+import { fetchUserPhotos } from "@/services/apiService";
 
 export default defineComponent({
   name: "UserPhotos",
@@ -37,20 +39,19 @@ export default defineComponent({
       return user ? user.name : "User";
     });
     const isLoading = ref(true);
-    const fetchPhotos = async () => {
+
+    const getPhotos = async () => {
       try {
-        const response = await axios.get(
-          `https://jsonplaceholder.typicode.com/users/${userId}/photos`
-        );
-        photos.value = response.data;
-        isLoading.value = false;
+        photos.value = await fetchUserPhotos(userId.toString());
       } catch (error) {
         console.error("Error fetching photos:", error);
+      } finally {
+        isLoading.value = false;
       }
     };
 
     onMounted(() => {
-      fetchPhotos();
+      getPhotos();
     });
 
     return {
