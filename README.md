@@ -4,7 +4,7 @@ This is a Vue.js project built with Vuex for state management, TypeScript for ty
 
 Demo
 
-You can view a live demo of the project at xxxxx.com.
+You can view a live demo of the project at (https://user-list-app-rbk.netlify.app/)
 
 Screenshots
 
