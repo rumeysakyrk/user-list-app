@@ -1,4 +1,4 @@
-Project Name
+User List App
 
 This is a Vue.js project built with Vuex for state management, TypeScript for type safety, and Vuetify for UI components. The project is designed for ease of use and modern web application development.
 
@@ -64,4 +64,4 @@ License
 
 This project is licensed under the MIT License.
 
-Bu şablon README dosyanız için temel bir içerik sunuyor. Görselleri eklemek ve gerekli bağlantıları kendi projenize göre düzenlemek yeterli olacaktır.
+
